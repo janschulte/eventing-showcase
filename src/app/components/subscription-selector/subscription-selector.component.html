@@ -1,0 +1,7 @@
+<div *ngIf="subscriptions">
+  <mat-selection-list #subsElem style="max-height: 300px; overflow: auto;" (selectionChange)="selectionChange($event)">
+    <mat-list-option [value]="sub" *ngFor="let sub of subscriptions.data">
+      {{sub.notification.label}}
+    </mat-list-option>
+  </mat-selection-list>
+</div>

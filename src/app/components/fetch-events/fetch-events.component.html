@@ -1,18 +1,15 @@
-<div *ngIf="subscriptions">
-  <mat-selection-list #subsElem style="max-height: 300px; overflow: auto;">
-    <mat-list-option [value]="sub" *ngFor="let sub of subscriptions.data">
-      {{sub.notification.label}}
-    </mat-list-option>
-  </mat-selection-list>
-  <p>
-    Options selected: {{subsElem.selectedOptions}}
-  </p>
-</div>
+<app-subscription-selector (selectedSubscriptionsChanged)="selectedSubscriptions($event)"></app-subscription-selector>
+<div style="padding: 10px; text-align: center">{{subscriptions.length}} selected subscriptions</div>
 
 <div>
-  <button mat-raised-button color="primary" (click)="fetchEvents()">Fetch Events</button>
+  <button mat-raised-button color="primary" (click)="fetchEvents()" style="margin-right: 20px">Fetch Events</button>
   <span *ngIf="loadingEvents">loading...</span>
   <div *ngIf="loadingError">{{loadingError}}</div>
+  <span *ngIf="events">Found {{events.data.length}} Events</span>
+</div>
+
+<div style="height: 500px; width: 100%;" *ngIf="events">
+  <app-eventing-map [fitBounds]="bounds" [events]="events.data" [eventingUrl]="eventingUrl" (eventSelected)="showEvent($event)"></app-eventing-map>
 </div>
 
 <div *ngIf="events">
@@ -25,7 +22,7 @@
 
     <ng-container matColumnDef="timestamp">
       <th mat-header-cell *matHeaderCellDef> Timestamp </th>
-      <td mat-cell *matCellDef="let element"> {{element.timestamp | date: 'full'}} </td>
+      <td mat-cell *matCellDef="let element"> {{element.timestamp | date: 'medium'}} </td>
     </ng-container>
 
     <ng-container matColumnDef="label">
@@ -52,5 +49,3 @@
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
 </div>
-
-<pre>{{events|json}}</pre>

@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Injectable, NgModule } from '@angular/core';
+import { MatDialogModule } from '@angular/material';
 import { MatButtonModule } from '@angular/material/button';
 import { MatListModule } from '@angular/material/list';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -8,14 +9,24 @@ import { MatTableModule } from '@angular/material/table';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BasicAuthInformer, HelgolandBasicAuthModule } from '@helgoland/auth';
-import { HelgolandCoreModule, Settings, SettingsService } from '@helgoland/core';
+import {
+  DatasetApiInterface,
+  HelgolandCoreModule,
+  Settings,
+  SettingsService,
+  SplittedDataDatasetApiInterface,
+} from '@helgoland/core';
 import { EventingApiService, EventingImplApiInterface } from '@helgoland/eventing';
+import { HelgolandMapModule } from '@helgoland/map';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 import { AppComponent } from './app.component';
+import { EventingMapComponent } from './components/eventing-map/eventing-map.component';
+import { FetchEventsComponent } from './components/fetch-events/fetch-events.component';
+import { EventPresentationComponent } from './components/modals/event-presentation/event-presentation.component';
+import { SubscriptionSelectorComponent } from './components/subscription-selector/subscription-selector.component';
 import { EventingBasicAuthInformerService } from './eventing-basic-auth-informer.service';
-import { FetchEventsComponent } from './fetch-events/fetch-events.component';
 
 
 @Injectable()
@@ -31,7 +42,13 @@ export class ExtendedSettingsService extends SettingsService<Settings> {
 @NgModule({
   declarations: [
     AppComponent,
-    FetchEventsComponent
+    FetchEventsComponent,
+    SubscriptionSelectorComponent,
+    EventingMapComponent,
+    EventPresentationComponent
+  ],
+  entryComponents: [
+    EventPresentationComponent
   ],
   imports: [
     BrowserModule,
@@ -39,10 +56,12 @@ export class ExtendedSettingsService extends SettingsService<Settings> {
     CommonModule,
     HelgolandBasicAuthModule,
     HelgolandCoreModule,
+    HelgolandMapModule,
     MatButtonModule,
     MatProgressSpinnerModule,
     MatTableModule,
     MatListModule,
+    MatDialogModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -63,6 +82,10 @@ export class ExtendedSettingsService extends SettingsService<Settings> {
     {
       provide: BasicAuthInformer,
       useClass: EventingBasicAuthInformerService
+    },
+    {
+      provide: DatasetApiInterface,
+      useClass: SplittedDataDatasetApiInterface
     }
   ],
   bootstrap: [AppComponent]
