@@ -23,6 +23,7 @@
     "@angular/platform-browser-dynamic": "^6.0.3",
     "@angular/router": "^6.0.3",
     "@helgoland/auth": "0.0.1-alpha.67",
+    "@helgoland/caching": "0.0.1-alpha.67",
     "@helgoland/core": "0.0.1-alpha.67",
     "@helgoland/eventing": "0.0.1-alpha.67",
     "@helgoland/map": "0.0.1-alpha.67",

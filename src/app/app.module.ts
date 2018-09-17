@@ -9,6 +9,7 @@ import { MatTableModule } from '@angular/material/table';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BasicAuthInformer, HelgolandBasicAuthModule } from '@helgoland/auth';
+import { HelgolandCachingModule } from '@helgoland/caching';
 import {
   DatasetApiInterface,
   HelgolandCoreModule,
@@ -57,6 +58,7 @@ export class ExtendedSettingsService extends SettingsService<Settings> {
     HelgolandBasicAuthModule,
     HelgolandCoreModule,
     HelgolandMapModule,
+    HelgolandCachingModule,
     MatButtonModule,
     MatProgressSpinnerModule,
     MatTableModule,
