@@ -13,7 +13,7 @@ import { DatasetApiInterface } from '@helgoland/core';
 import { Event, EventingApiService } from '@helgoland/eventing';
 import { CachedMapComponent, MapCache } from '@helgoland/map';
 import { Point } from 'geojson';
-import { circleMarker, divIcon, marker } from 'leaflet';
+import { divIcon, marker, FeatureGroup, featureGroup } from 'leaflet';
 
 @Component({
   selector: 'app-eventing-map',
@@ -32,6 +32,8 @@ export class EventingMapComponent extends CachedMapComponent implements AfterVie
   @Output()
   public eventSelected = new EventEmitter<Event>();
 
+  private markerGroup: FeatureGroup = featureGroup();
+
   constructor(
     protected mapCache: MapCache,
     protected differs: KeyValueDiffers,
@@ -43,6 +45,7 @@ export class EventingMapComponent extends CachedMapComponent implements AfterVie
 
   public ngAfterViewInit(): void {
     this.createMap();
+    this.markerGroup.addTo(this.map);
   }
 
   public ngOnChanges(changes: SimpleChanges) {
@@ -53,28 +56,27 @@ export class EventingMapComponent extends CachedMapComponent implements AfterVie
   }
 
   private renderEvents() {
+    this.markerGroup.clearLayers();
     if (!this.eventingUrl) {
       console.error('EventingMapComponent needs a eventingUrl as input.');
       return;
     }
     this.events.forEach(event => {
+      if (event.publication.id === '608') { return; }
       this.eventingApi.getPublication(event.publication.id, this.eventingUrl).subscribe(pub => {
         const id = pub.id;
         const url = pub.seriesHref.substr(0, pub.seriesHref.indexOf('timeseries'));
         this.datasetApi.getSingleTimeseries(id, url).subscribe(series => {
           const point = series.station.geometry as Point;
-          // circleMarker({ lat: point.coordinates[1], lng: point.coordinates[0] })
-          //   .addTo(this.map)
-          //   .on('click', (evt) => this.eventSelected.emit(event));
           marker({ lat: point.coordinates[1], lng: point.coordinates[0] }, {
             icon: divIcon({
               className: 'my-div-icon',
               iconSize: [30, 30],
               html: `<img class="warn-marker" src="./assets/warn.png"/>`
-                    //  <span class="warn-marker-label">1</span>`
+              //  <span class="warn-marker-label">1</span>`
             }),
           })
-            .addTo(this.map)
+            .addTo(this.markerGroup)
             .on('click', (evt) => this.eventSelected.emit(event));
         });
       });
