@@ -1,7 +1,13 @@
-<h1 mat-dialog-title>{{data.event.label}}</h1>
+<h1 mat-dialog-title>Station: {{data.timeseriesEvents[0].series.station.properties.label}}</h1>
 <div mat-dialog-content>
-  {{data.event.timestamp | date}}
+  <div *ngFor="let series of data.timeseriesEvents">
+    <div style="padding-bottom: 10px;">Timeseries: {{series.series.label}}</div>
+    <div *ngFor="let event of series.events" style="padding-bottom: 5px;">
+      <div>{{event.label}}</div>
+      <div style="font-size: smaller; text-align: center;">{{event.timestamp | date: 'MMM d, y, h:mm:ss'}}</div>
+    </div>
+  </div>
 </div>
-<div mat-dialog-actions>
+<div mat-dialog-actions [align]="'end'">
   <button mat-button [mat-dialog-close] cdkFocusInitial>Ok</button>
 </div>

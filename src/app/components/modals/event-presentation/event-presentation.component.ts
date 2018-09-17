@@ -1,9 +1,10 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
-import { Event } from '@helgoland/eventing';
+
+import { TimeseriesEventMap } from '../../eventing-map/eventing-map.component';
 
 export interface EventPresentationData {
-  event: Event;
+  timeseriesEvents: TimeseriesEventMap[];
 }
 
 @Component({

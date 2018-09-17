@@ -6,6 +6,7 @@ import { EventFilter, EventingApiService, EventResults, Subscription } from '@he
 import { latLng, latLngBounds } from 'leaflet';
 
 import { eventing } from '../../../environments/credentials';
+import { TimeseriesEventMap } from '../eventing-map/eventing-map.component';
 import { EventPresentationComponent } from '../modals/event-presentation/event-presentation.component';
 
 @Component({
@@ -57,9 +58,9 @@ export class FetchEventsComponent implements OnInit {
       );
   }
 
-  public showEvent(event: Event) {
+  public showEvent(timeseriesEvents: TimeseriesEventMap[]) {
     this.dialog.open(EventPresentationComponent, {
-      data: { event: event }
+      data: { timeseriesEvents }
     });
   }
 
