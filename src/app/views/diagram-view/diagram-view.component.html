@@ -1,0 +1,13 @@
+<app-subscription-selector (selectedSubscriptionsChanged)="selectedSubscriptions($event)"></app-subscription-selector>
+
+<div>
+  <button mat-raised-button color="primary" (click)="fetchEvents()" style="margin-right: 20px">Fetch Events</button>
+  <span *ngIf="loadingEvents">loading...</span>
+  <div *ngIf="loadingError">{{loadingError}}</div>
+  <span *ngIf="events">Found {{events.data.length}} Events</span>
+</div>
+
+<div style="height: 500px; overflow: hidden;">
+  <app-eventing-diagram [datasetIds]="datasetIds" [datasetOptions]="datasetOptions" [timeInterval]="timespan"
+    [presenterOptions]="graphOptions" [eventingIcon]="eventingIcon" [events]="events?.data" (onTimespanChanged)="timespan = $event"></app-eventing-diagram>
+</div>

@@ -6,6 +6,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatListModule } from '@angular/material/list';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTableModule } from '@angular/material/table';
+import { MatTabsModule } from '@angular/material/tabs';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BasicAuthInformer, HelgolandBasicAuthModule } from '@helgoland/auth';
@@ -23,12 +24,13 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 import { AppComponent } from './app.component';
+import { EventingDiagramComponent } from './components/eventing-diagram/eventing-diagram.component';
 import { EventingMapComponent } from './components/eventing-map/eventing-map.component';
-import { FetchEventsComponent } from './components/fetch-events/fetch-events.component';
 import { EventPresentationComponent } from './components/modals/event-presentation/event-presentation.component';
 import { SubscriptionSelectorComponent } from './components/subscription-selector/subscription-selector.component';
 import { EventingBasicAuthInformerService } from './eventing-basic-auth-informer.service';
-
+import { DiagramViewComponent } from './views/diagram-view/diagram-view.component';
+import { MapViewComponent } from './views/map-view/map-view.component';
 
 @Injectable()
 export class ExtendedSettingsService extends SettingsService<Settings> {
@@ -43,10 +45,12 @@ export class ExtendedSettingsService extends SettingsService<Settings> {
 @NgModule({
   declarations: [
     AppComponent,
-    FetchEventsComponent,
     SubscriptionSelectorComponent,
     EventingMapComponent,
-    EventPresentationComponent
+    EventPresentationComponent,
+    MapViewComponent,
+    DiagramViewComponent,
+    EventingDiagramComponent
   ],
   entryComponents: [
     EventPresentationComponent
@@ -64,6 +68,7 @@ export class ExtendedSettingsService extends SettingsService<Settings> {
     MatTableModule,
     MatListModule,
     MatDialogModule,
+    MatTabsModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

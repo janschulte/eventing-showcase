@@ -6,15 +6,15 @@ import { EventFilter, EventingApiService, EventResults, Subscription } from '@he
 import { latLng, latLngBounds } from 'leaflet';
 
 import { eventing } from '../../../environments/credentials';
-import { TimeseriesEventMap } from '../eventing-map/eventing-map.component';
-import { EventPresentationComponent } from '../modals/event-presentation/event-presentation.component';
+import { TimeseriesEventMap } from '../../components/eventing-map/eventing-map.component';
+import { EventPresentationComponent } from '../../components/modals/event-presentation/event-presentation.component';
 
 @Component({
-  selector: 'app-fetch-events',
-  templateUrl: './fetch-events.component.html',
-  styleUrls: ['./fetch-events.component.scss']
+  selector: 'app-map-view',
+  templateUrl: './map-view.component.html',
+  styleUrls: ['./map-view.component.scss']
 })
-export class FetchEventsComponent implements OnInit {
+export class MapViewComponent implements OnInit {
 
   public events: EventResults;
   public loadingEvents: boolean;

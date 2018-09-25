@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FetchEventsComponent } from './fetch-events.component';
+import { DiagramViewComponent } from './diagram-view.component';
 
-describe('FetchEventsComponent', () => {
-  let component: FetchEventsComponent;
-  let fixture: ComponentFixture<FetchEventsComponent>;
+describe('DiagramViewComponent', () => {
+  let component: DiagramViewComponent;
+  let fixture: ComponentFixture<DiagramViewComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ FetchEventsComponent ]
+      declarations: [ DiagramViewComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(FetchEventsComponent);
+    fixture = TestBed.createComponent(DiagramViewComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
