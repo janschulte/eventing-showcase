@@ -47,7 +47,7 @@ export class MapViewComponent implements OnInit {
     const params: EventFilter = {
       latest: true,
       limit: 100,
-      subscriptions: this.subscriptions.map(e => e.id).join(',')
+      subscriptions: this.subscriptions.map(e => e.id)
     };
     const options: HttpRequestOptions = {};
     this.eventingApi.getEvents(eventing.url, params, options)

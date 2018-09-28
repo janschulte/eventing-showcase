@@ -8,6 +8,11 @@
 </div>
 
 <div style="height: 500px; overflow: hidden;">
-  <app-eventing-diagram [datasetIds]="datasetIds" [datasetOptions]="datasetOptions" [timeInterval]="timespan"
-    [presenterOptions]="graphOptions" [eventingIcon]="eventingIcon" [events]="events?.data" (onTimespanChanged)="timespan = $event"></app-eventing-diagram>
+  <app-eventing-diagram [datasetIds]="datasetSrvc.datasetIds" [datasetOptions]="datasetSrvc.datasetOptions"
+    [timeInterval]="timespan" [presenterOptions]="graphOptions" [eventingIcon]="eventingIcon" [events]="events?.data"
+    (onTimespanChanged)="timespan = $event"></app-eventing-diagram>
+</div>
+<div style="height: 150px; overflow: hidden;">
+  <n52-d3-overview-timeseries-graph [datasetIds]="datasetSrvc.datasetIds" [rangefactor]="2" [datasetOptions]="datasetSrvc.datasetOptions"
+    [presenterOptions]="overviewOptions" [timeInterval]="timespan" (onTimespanChanged)="timespan = $event"></n52-d3-overview-timeseries-graph>
 </div>

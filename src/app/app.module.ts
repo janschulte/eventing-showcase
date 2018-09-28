@@ -18,6 +18,7 @@ import {
   SettingsService,
   SplittedDataDatasetApiInterface,
 } from '@helgoland/core';
+import { HelgolandD3Module } from '@helgoland/d3';
 import { EventingApiService, EventingImplApiInterface } from '@helgoland/eventing';
 import { HelgolandMapModule } from '@helgoland/map';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
@@ -56,18 +57,19 @@ export class ExtendedSettingsService extends SettingsService<Settings> {
     EventPresentationComponent
   ],
   imports: [
-    BrowserModule,
     BrowserAnimationsModule,
+    BrowserModule,
     CommonModule,
     HelgolandBasicAuthModule,
-    HelgolandCoreModule,
-    HelgolandMapModule,
     HelgolandCachingModule,
+    HelgolandCoreModule,
+    HelgolandD3Module,
+    HelgolandMapModule,
     MatButtonModule,
+    MatDialogModule,
+    MatListModule,
     MatProgressSpinnerModule,
     MatTableModule,
-    MatListModule,
-    MatDialogModule,
     MatTabsModule,
     TranslateModule.forRoot({
       loader: {

@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { DatasetOptions, HttpRequestOptions, Timespan } from '@helgoland/core';
-import { D3PlotOptions } from '@helgoland/d3';
+import { Timespan } from '@helgoland/core';
+import { D3PlotOptions, HoveringStyle } from '@helgoland/d3';
 import { EventFilter, EventingApiService, EventResults, Subscription } from '@helgoland/eventing';
 
 import { eventing } from '../../../environments/credentials';
 import { EventingIcon } from '../../components/eventing-diagram/eventing-diagram.component';
+import { DiagramDatasetService } from '../../diagram-dataset.service';
 
+const ID_prefix = 'http://fluggs.wupperverband.de/sos2/api/v1/__';
 @Component({
   selector: 'app-diagram-view',
   templateUrl: './diagram-view.component.html',
@@ -14,12 +16,18 @@ import { EventingIcon } from '../../components/eventing-diagram/eventing-diagram
 export class DiagramViewComponent implements OnInit {
 
   // diagram component
-  public datasetIds = [];
-  public datasetOptions = new Map<string, DatasetOptions>();
   public timespan: Timespan;
+
   public graphOptions: D3PlotOptions = {
+    showTimeLabel: false,
+    hoverStyle: HoveringStyle.point
+  };
+
+  public overviewOptions: D3PlotOptions = {
+    overview: true,
     showTimeLabel: false
   };
+
   public eventingIcon: EventingIcon = {
     height: 30,
     width: 30,
@@ -36,13 +44,10 @@ export class DiagramViewComponent implements OnInit {
 
   constructor(
     private eventingApi: EventingApiService,
+    public datasetSrvc: DiagramDatasetService
   ) { }
 
   ngOnInit() {
-    const id = 'http://fluggs.wupperverband.de/sos2/api/v1/__64';
-    this.datasetIds.push(id);
-    const options = new DatasetOptions(id, 'red');
-    this.datasetOptions.set(id, options);
     const end = new Date().getTime();
     const start = end - 1000 * 60 * 60 * 24 * 2;
     this.timespan = new Timespan(start, end);
@@ -50,6 +55,18 @@ export class DiagramViewComponent implements OnInit {
 
   public selectedSubscriptions(subs: Subscription[]) {
     this.subscriptions = subs;
+    this.addDatasets();
+  }
+
+  private addDatasets() {
+    const ids = this.subscriptions.map(e => ID_prefix + e.notification.publication.id).filter((e, i, a) => a.indexOf(e) === i);
+    // remove old datasets
+    this.datasetSrvc.datasetIds.filter(e => ids.indexOf(e) < 0).forEach(e => { this.datasetSrvc.removeDataset(e); });
+    ids.forEach(id => {
+      if (this.datasetSrvc.datasetIds.indexOf(id) < 0) {
+        this.datasetSrvc.addDataset(id);
+      }
+    });
   }
 
   public fetchEvents() {
@@ -57,10 +74,10 @@ export class DiagramViewComponent implements OnInit {
     const params: EventFilter = {
       latest: true,
       limit: 100,
-      subscriptions: this.subscriptions.map(e => e.id).join(',')
+      subscriptions: this.subscriptions.map(e => e.id),
+      expanded: true
     };
-    const options: HttpRequestOptions = {};
-    this.eventingApi.getEvents(eventing.url, params, options)
+    this.eventingApi.getEvents(eventing.url, params)
       .subscribe(
         (events: EventResults) => this.events = events,
         error => this.loadingError = error,
